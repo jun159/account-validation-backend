@@ -3,6 +3,7 @@ mvnw/
 mvnw.cmd
 account-validation-backend.iml
 target/
+!.mvn/wrapper
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
