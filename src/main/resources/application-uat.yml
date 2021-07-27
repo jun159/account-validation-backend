@@ -1,0 +1,11 @@
+providers:
+  - name: provider1
+    url: https://provider1-uat.com/v1/api/account/validate
+  - name: provider2
+    url: https://provider2-uat.com/v2/api/account/validate
+  - name: provider3
+    url: https://provider3-uat.com/v2/api/account/validate
+  - name: provider4
+    url: https://provider4-uat.com/v2/api/account/validate
+  - name: provider5
+    url: https://provider5-uat.com/v2/api/account/validate
