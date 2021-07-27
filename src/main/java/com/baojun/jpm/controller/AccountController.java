@@ -30,24 +30,17 @@ public class AccountController {
     @PostMapping(value = "/account/validate", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     ResponseEntity validateAccount(@Valid @RequestBody Optional<Account> account) {
-        if(!account.isPresent() || !account.get().getAccountNumber().isPresent() || account.get().getAccountNumber().get().isEmpty()) {
+        if(!account.isPresent() || !account.get().getAccountNumber().isPresent() || account.get().getAccountNumber().get().isEmpty())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please provide a valid Account Number");
-        }
 
         HashMap<String, ProviderConfig> existingProviders = appConfig.getProvidersMap();
         List<String> accountProviders = account.get().getProviders().orElse(new ArrayList<>());
-        List<Provider> result = new ArrayList<>();
-        List<ProviderConfig> finalProviders;
+        final List<ProviderConfig> validProviders = new ArrayList<>();
 
-        if (accountProviders.isEmpty()) finalProviders = appConfig.getProviders();
-        else finalProviders = accountProviders.stream().map(provider -> existingProviders.getOrDefault(provider, null)).collect(Collectors.toList());
-
-        finalProviders.forEach(providerConfig -> {
-            if(providerConfig != null && existingProviders.containsKey(providerConfig.getName())) {
-                // TODO: Hit url to get isValid status, currently set as true as default
-                result.add(new Provider(providerConfig.getName(), true));
-            }
-        });
+        if (accountProviders.isEmpty()) validProviders.addAll(appConfig.getProviders());
+        else accountProviders.forEach(provider -> { if(existingProviders.containsKey(provider)) validProviders.add(existingProviders.get(provider)); });
+        // TODO: Hit each url to get isValid status below
+        List<Provider> result = validProviders.stream().map(providerConfig -> new Provider(providerConfig.getName(), true)).collect(Collectors.toList());
 
         return ResponseEntity.ok(new ProviderResponse(result));
     }
