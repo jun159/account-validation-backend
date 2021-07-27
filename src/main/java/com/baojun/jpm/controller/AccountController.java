@@ -44,6 +44,7 @@ public class AccountController {
 
         finalProviders.forEach(providerConfig -> {
             if(providerConfig != null && existingProviders.containsKey(providerConfig.getName())) {
+                // TODO: Hit url to get isValid status, currently set as true as default
                 result.add(new Provider(providerConfig.getName(), true));
             }
         });
