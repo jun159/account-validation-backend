@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +28,7 @@ public class AccountController {
 
     @PostMapping(value = "/account/validate", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    ResponseEntity validateAccount(@Valid @RequestBody Optional<Account> account) {
+    ResponseEntity validateAccount(@RequestBody Optional<Account> account) {
         if(!account.isPresent() || !account.get().getAccountNumber().isPresent() || account.get().getAccountNumber().get().isEmpty())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please provide a valid Account Number");
 
